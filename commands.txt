@@ -1,0 +1,6 @@
+pip install -r requirements.txt
+python app.py
+pytest
+
+docker build -t flask-crud-app .
+docker run -p 5000:5000 flask-crud-app

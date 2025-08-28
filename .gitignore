@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+myenv/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker
+*.pid
+*.seed
+*.bak
+docker-compose.override.yml
+
+# Environment variables
+.env
+*.env
+
+# AWS CodeBuild / CodePipeline artifacts
+imagedefinitions.json
+
+# PyCharm
+*.iml
+
+# Test cache and reports
+junitxml/
+.cache/

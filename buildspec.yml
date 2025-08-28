@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+      docker: 20
+    commands:
+      - echo Installing dependencies...
+      - pip install -r requirements.txt
+      - pip install pytest
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon Public ECR...
+      - aws --version
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c2s9r9y6
+      - REPOSITORY_URI=public.ecr.aws/c2s9r9y6/aws_ecr_repo_pub_batchtwelve-tf
+      - IMAGE_TAG=latest
+      - echo Running unit tests...
+      - pytest --tb=short --disable-warnings
+
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+
+  post_build:
+    commands:
+      - echo Pushing the Docker image to Public ECR...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing imagedefinitions.json for ECS deployment...
+      - printf '[{"name":"myflaskcontainer","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
